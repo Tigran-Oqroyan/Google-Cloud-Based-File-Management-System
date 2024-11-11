@@ -1,0 +1,13 @@
+.layout{
+    display: flex;
+    padding-left: 15px;
+    gap: 15px;
+
+    .innerLayout{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding-right: 15px;
+    }
+}
