@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import exampleSlice from '../slices/exampleSlice';
+import fileUploadSlice from '../slices/fileUploadSlice';
 
 const rootReducer = combineReducers({
-  example: exampleSlice,
+  fileUpload: fileUploadSlice, // matches the name you used in `useSelector`
 });
 
 export default rootReducer;
