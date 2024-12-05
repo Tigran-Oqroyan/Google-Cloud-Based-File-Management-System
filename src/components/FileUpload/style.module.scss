@@ -15,53 +15,55 @@
       padding: 10px;
       margin-bottom: 20px;
       border-radius: 15px;
-      background-color: rgba(#00a6ff, 0.3);
+      background-color: white; // rgba(#00a6ff, 0.3);
 
       .dropAndClickArea {
         width: 100%;
-        height: 200px;
+        height: 300px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        gap: 10px;
         border: 2px dashed rgb(132, 132, 132);
-        border-radius: 5px;
+        border-radius: 15px;
         text-align: center;
         cursor: pointer;
         font-size: 20px;
         position: relative;
         transition: all 0.2s ease;
 
-        &:hover {
-          background-color: rgba(#00bbff, 0.1);
-        }
         .bx_cloud_upload {
           font-size: 80px;
-          color: white;
+          color: black;
         }
 
-        .fileInput {
-          opacity: 0;
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
+        input[type="file"]{
+          display: none;
+        }
+
+        .custom_file_upload_button{  
+          border: 1px solid black;
+          padding: 5px 15px;
+          border-radius: 10px;
+          margin-top: 10px;
           cursor: pointer;
         }
+
       }
     }
+  }
+  .uploadedFilesScrollable{
+    overflow: scroll;
+    padding: 10px;
   }
 
   .uploadedFiles {
     width: 100%;
-    overflow-y: scroll;
-    max-height: calc(100vh - 300px);
-    padding: 10px 20px 10px 0px;
+    max-height: calc(100vh - 405px);
 
     &::-webkit-scrollbar {
-      width: 10px;
-      margin-left: 10px;
+      width: 0px;
     }
 
     &::-webkit-scrollbar-trach {
@@ -73,14 +75,35 @@
       border-radius: 20px;
     }
 
+    .noUploadedFiles{
+      height: calc(100vh - 405px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(#ececec, 0.3);
+      border-radius: 15px;
+      width: 100%;
+      padding: 10px;
+
+      .noUploadedFilesInner{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        border: 2px dashed rgb(132, 132, 132);
+        border-radius: 15px;
+      }
+    }
+
     .fileItem {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px;
       margin-bottom: 20px;
-      border-radius: 15px;
-      border: 1px dashed gray;
+      padding: 15px;
+      border-radius:15px ;
+      background-color: rgba(#ececec, 0.3);
     }
   }
 }

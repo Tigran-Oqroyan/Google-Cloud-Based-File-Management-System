@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { addFiles } from "../../slices/fileUploadSlice";
 import { uploadFile } from "../../slices/fileUploadSlice";
 import styles from "./style.module.scss";
+import Loader from "../../IconComponents/Loader";
+import Failed from "../../IconComponents/Failed";
+import Successed from "../../IconComponents/Successed";
 
 const FileUpload = () => {
   const dispatch = useDispatch();
@@ -40,18 +43,37 @@ const FileUpload = () => {
             onDrop={handleDrop}
             onDragOver={handleDragOver}
           >
-            <p>Drag and Drop / Click to upload files</p>
             <i class={`bx bx-cloud-upload ${styles.bx_cloud_upload}`}></i>{" "}
+            <span>Choose a file or drag & drop it here</span>
+            <span>JPG, JPEG, PNG</span>
+            <label
+              htmlFor="file-upload"
+              className={styles.custom_file_upload_button}
+            >
+              Browse File
+            </label>
             <input
+              id="file-upload"
               type="file"
               multiple
               onChange={handleFileChange}
-              className={styles.fileInput}
             />
           </div>
         </div>
 
-        <div className={styles.uploadedFiles}>
+        <div
+          className={`${styles.uploadedFiles} ${
+            files.length > 0 && styles.uploadedFilesScrollable
+          }`}
+        >
+          {files.length <= 0 && (
+            <div className={styles.noUploadedFiles}>
+              {" "}
+              <div className={styles.noUploadedFilesInner}>
+                There is no uploaded files yet ...
+              </div>{" "}
+            </div>
+          )}
           {files.map(
             (fileWrapper, index) => (
               console.log(fileWrapper),
@@ -62,15 +84,10 @@ const FileUpload = () => {
                     className={styles.fileImage}
                   />
                   <span className={styles.fileStatus}>
-                    {fileWrapper.status === "pending" && "Pending"}
-                    {fileWrapper.status === "succeeded" && "Succeeded"}
-                    {fileWrapper.status === "failed" && "Failed"}
+                    {fileWrapper.status === "pending" && <Loader />}
+                    {fileWrapper.status === "succeeded" && <Successed />}
+                    {fileWrapper.status === "failed" && <Failed />}
                   </span>
-                  {fileWrapper.error && (
-                    <span className={styles.fileError}>
-                      Error: {fileWrapper.error}
-                    </span>
-                  )}
                 </div>
               )
             )
