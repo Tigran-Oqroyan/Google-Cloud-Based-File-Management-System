@@ -15,19 +15,22 @@ const FileUpload = () => {
   const files = useSelector((state) => state.fileUpload.files);
   console.log(files);
   const images = files.filter((file) => {
-    return (
-      file.fileMetadata.type === "image/png" ||
-      file.fileMetadata.type === "image/jpg" ||
-      file.fileMetadata.type === "image/jpeg"
-    );
+    return file.fileMetadata.type.slice(0, 5) === "image";
   });
 
   const handleFiles = (selectedFiles) => {
     const fileArray = Array.from(selectedFiles);
-    dispatch(addFiles(fileArray));
+    const validFiles = fileArray.filter((file) => {
+      return file.type.startsWith("image/");
+    });
+
+    if (validFiles.length < fileArray.length) {
+      alert("Some files were not images and have been ignored.");
+    }
+    dispatch(addFiles(validFiles));
 
     // Trigger upload for each file
-    fileArray.forEach((file) => {
+    validFiles.forEach((file) => {
       dispatch(uploadFile(file));
     });
   };
@@ -87,6 +90,7 @@ const FileUpload = () => {
               id="file-upload"
               type="file"
               multiple
+              accept="image/*"
               onChange={handleFileChange}
             />
           </div>
@@ -124,7 +128,9 @@ const FileUpload = () => {
 
       <div className={styles.showSliderWrapper}>
         <div
-          className={`${images.length <= 0 ? styles.noContentShowSlider : styles.showSlider }`}
+          className={`${
+            images.length <= 0 ? styles.noContentShowSlider : styles.showSlider
+          }`}
         >
           {images.length <= 0 ? (
             "There io no uploaded images to show yet ..."
