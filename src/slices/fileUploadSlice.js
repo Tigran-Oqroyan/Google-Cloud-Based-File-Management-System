@@ -41,7 +41,7 @@ const fileUploadSlice = createSlice({
   reducers: {
     addFiles: (state, action) => {
       action.payload.forEach((file) => {
-        state.files.push({
+        state.files.unshift({
           fileMetadata: { name: file.name, size: file.size, type: file.type },
           status: 'pending',
           error: null,
