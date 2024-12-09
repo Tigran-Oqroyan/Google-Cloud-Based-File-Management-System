@@ -19,6 +19,7 @@
   max-height: calc(100vh - 140px);
   z-index: 1000;
   width: 100%;
+  max-height: calc(100vh - 140px);
 
   &::-webkit-scrollbar {
     width: 0px;
@@ -30,9 +31,19 @@
 
   &::-webkit-scrollbar-thumb {
     background-color: rgba(0, 166, 255, 0.3);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
   }
 }
 
 .noFilesWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: calc(100vh - 90px);
+  border-radius: 20px;
+  background-color: white;
   font-size: 30px;
+  margin-right: 20px;
 }
