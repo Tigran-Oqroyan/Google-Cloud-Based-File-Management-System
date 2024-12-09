@@ -141,8 +141,12 @@ const FileUpload = () => {
               alt=""
             />
           )}
-          <Left handlePrev={handlePrev} />
-          <Right handleNext={handleNext} />
+          {images.length > 0 && (
+            <div>
+              <Left handlePrev={handlePrev} />
+              <Right handleNext={handleNext} />
+            </div>
+          )}
         </div>
       </div>
     </div>

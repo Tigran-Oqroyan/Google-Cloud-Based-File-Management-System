@@ -1,44 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import FileCard from "../FIleCard";
-import styles from './style.module.scss'
+import styles from "./style.module.scss";
+import Navbar from "../Navbar";
+import Sidebar from "../Sidebar";
+import { useSelector } from "react-redux";
+import { getFiles } from "../../slices/filesGetSlice";
 
 const UploadedFiles = () => {
-  const files = [
-    {
-      name: "marry_christmas_happy_new_year.png",
-    },
-    {
-      name: "marry_christmas_happy_new_year.png",
-    },
-    {
-      name: "marry_christmas_happy_new_year.png",
-    },
-    {
-      name: "marry_christmas_happy_new_year.png",
-    },
-    {
-      name: "marry_christmas_happy_new_year.png",
-    },
-    {
-      name: "marry_christmas_happy_new_year.png",
-    },
-    {
-      name: "marry_christmas_happy_new_year.png",
-    },
-    {
-      name: "marry_christmas_happy_new_year.png",
-    },
-    {
-      name: "marry_christmas_happy_new_year.png",
-    },
-  ];
-  
+  const dispatch = useDispatch();
+  const files = useSelector((state) => state.filesGet.files);
+  console.log(files);
+
+  useEffect(() => {
+    dispatch(getFiles());
+  }, [dispatch]);
+
   return (
-    <div className={styles.files_wrapper}>
-      {files.map((file) => {
-        return <FileCard file={file} />;
-      })}
-    </div>
+    <>
+      <Navbar />
+      <div className={styles.sidebar_files_wrapper}>
+        <Sidebar />
+        {files.length > 0 && (
+          <div className={styles.files_wrapper}>
+            {files.map((file) => {
+              return <FileCard file={file} />;
+            })}
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

@@ -1,9 +1,33 @@
-.sidebar{
-    width: 200px;
-    height: 680px;
-    border-bottom-left-radius:20px ;
-    border-bottom-right-radius: 20px;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    padding: 10px 20px;
+@import url("https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&family=Inter:wght@400;500;600;700&family=Josefin+Sans:ital,wght@0,500;1,400;1,500&family=Lato:wght@300&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+JP:wght@500&family=Open+Sans:ital,wght@0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&family=Poppins:wght@300;400;500;600;800&family=Roboto+Mono:wght@400;500;700&family=Roboto+Slab:wght@500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap");
 
+.sidebar {
+  top: -3px;
+  min-width: 180px;
+  height: calc(100vh - 67px);
+  padding: 0px 20px;
+  background-color: #ececec;
+  font-family: "Montserrat", sans-serif;
+  position: relative;
+  
+  .roundCorner {
+    position: absolute;
+    background-color: black;
+    width: 10px;
+    height: 10px;
+    top: 0px;
+    right: -10px;
+    border-top-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+
+  .sidebar_item {
+    width: 100%;
+    height: 20px;
+    padding: 20px 15px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    &:hover {
+      background-color: rgb(216, 216, 216);
+    }
+  }
 }

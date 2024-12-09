@@ -1,6 +1,35 @@
-.files_wrapper{
-    display: flex;
-    flex-wrap: wrap ;
-    align-items: center;
-    gap: 15px
+.sidebar_files_wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  position: relative;
+}
+
+.files_wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-evenly;
+  column-gap: 15px;
+  row-gap: 35px;
+  padding: 15px;
+  max-height: calc(100vh - 95px);
+  overflow-y: scroll;
+  background-color: white ;
+  border-radius: 20px 0px 0px 0px ;
+  position: absolute;  
+  top: -3px;
+  left: 210px;
+
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-trach {
+    background-color: white;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 166, 255, 0.3);
+  }
 }
