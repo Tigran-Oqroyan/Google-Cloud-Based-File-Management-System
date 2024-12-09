@@ -9,6 +9,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const deleteAll = () => {
     dispatch(deleteFiles())
+    dispatch(getFiles())
   };
 
   return (

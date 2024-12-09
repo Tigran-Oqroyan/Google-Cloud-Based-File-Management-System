@@ -21,12 +21,14 @@ const UploadedFiles = () => {
       <Navbar />
       <div className={styles.sidebar_files_wrapper}>
         <Sidebar />
-        {files.length > 0 && (
+        {files.length > 0 ? (
           <div className={styles.files_wrapper}>
             {files.map((file) => {
-              return <FileCard file={file} />;
+              return <FileCard key={file.id} file={file} />;
             })}
           </div>
+        ) : (
+          <div className={styles.noFilesWrapper}>There are no files...</div>
         )}
       </div>
     </>

@@ -1,28 +1,27 @@
 .sidebar_files_wrapper {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
   position: relative;
+  background-color: #ececec;
 }
 
 .files_wrapper {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-evenly;
-  column-gap: 15px;
-  row-gap: 35px;
-  padding: 15px;
-  max-height: calc(100vh - 95px);
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 15px;
+  padding: 25px;
   overflow-y: scroll;
-  background-color: white ;
-  border-radius: 20px 0px 0px 0px ;
-  position: absolute;  
-  top: -3px;
-  left: 210px;
+  background-color: white;
+  border-radius: 20px;
+  margin-right: 20px;
+  max-height: calc(100vh - 140px);
+  z-index: 1000;
+  width: 100%;
 
   &::-webkit-scrollbar {
-    width: 10px;
+    width: 0px;
   }
 
   &::-webkit-scrollbar-trach {
@@ -32,4 +31,8 @@
   &::-webkit-scrollbar-thumb {
     background-color: rgba(0, 166, 255, 0.3);
   }
+}
+
+.noFilesWrapper {
+  font-size: 30px;
 }

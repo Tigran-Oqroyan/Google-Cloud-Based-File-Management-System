@@ -4,26 +4,14 @@
   top: -3px;
   min-width: 180px;
   height: calc(100vh - 67px);
-  padding: 0px 20px;
+  padding: 0px 20px 0px 20px;
   background-color: #ececec;
   font-family: "Montserrat", sans-serif;
-  position: relative;
-  
-  .roundCorner {
-    position: absolute;
-    background-color: black;
-    width: 10px;
-    height: 10px;
-    top: 0px;
-    right: -10px;
-    border-top-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-  }
 
   .sidebar_item {
     width: 100%;
     height: 20px;
-    padding: 20px 15px;
+    padding: 20px 20px;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     &:hover {
