@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
 export const getFiles = createAsyncThunk(
   "filesGet/getFiles",
@@ -9,14 +10,14 @@ export const getFiles = createAsyncThunk(
     )}`;
 
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error("Failed to fetch files");
-      }
-      const data = await response.json();
-      return data.files;
+      const response = await axios.get(url);
+      return response.data.files; // Assuming the API returns a `files` property
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(
+        error.response && error.response.data
+          ? error.response.data.error
+          : error.message
+      );
     }
   }
 );
@@ -28,7 +29,15 @@ const filesGetSlice = createSlice({
     loading: false,
     error: null,
   },
-  reducers: {},
+  reducers: {
+    clearFiles: (state) => {
+      state.files = [];
+    },
+    deleteFileById: (state, action) => {
+      const id = action.payload;
+      state.files = state.files.filter((file) => file.id !== id);
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getFiles.pending, (state) => {
@@ -41,9 +50,10 @@ const filesGetSlice = createSlice({
       })
       .addCase(getFiles.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload || "An error occurred";
       });
   },
 });
 
+export const { clearFiles, deleteFileById } = filesGetSlice.actions;
 export default filesGetSlice.reducer;

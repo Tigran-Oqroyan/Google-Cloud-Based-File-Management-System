@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import styles from "./style.module.scss";
 import Failed from "../../IconComponents/Failed";
 import Loader from "../../IconComponents/Loader";
+import { deleteFile } from "../../slices/fileDeleteSlice";
+import { deleteFileById } from "../../slices/filesGetSlice";
 
 const ImageWithFallBack = ({ src, alt, LoadingComponent, FailedComponent }) => {
   const [status, setStatus] = useState("loading"); // Possible states: 'loading', 'loaded', 'error'
@@ -29,18 +32,34 @@ const ImageWithFallBack = ({ src, alt, LoadingComponent, FailedComponent }) => {
 };
 
 const FileCard = ({ file }) => {
-  const handleShow = () => {};
+  const dispatch = useDispatch();
 
-  const handleDownload = (file) => {
-    const link = document.createElement("a");
-    link.href = file.mediaLink;
-    link.download = file.name || "download";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleShow = (file) => {
+    if (file && file.publicLink) {
+      try {
+        window.open(file.publicLink, "_blank");
+      } catch (error) {
+        console.error(error);
+      }
+    } else {
+      console.warn("Invalid file or missing publicLink");
+    }
   };
 
-  const handleDelete = () => {};
+  const handleDownload = (file) => {
+    setTimeout(() => {
+      const iframe = document.createElement("iframe");
+      iframe.style.display = "none";
+      iframe.src = file.mediaLink;
+      document.body.appendChild(iframe);
+      setTimeout(() => document.body.removeChild(iframe), 1000);
+    }, 200);
+  };
+
+  const handleDelete = (id) => {
+    dispatch(deleteFile([id]));
+    dispatch(deleteFileById(id));
+  };
 
   const convertSize = (size) => {
     const wholePart = size / 1000;
@@ -68,7 +87,7 @@ const FileCard = ({ file }) => {
       <div className={styles.file_size}>{convertSize(file.size)} KB</div>
 
       <div className={styles.actions}>
-        <div className={styles.show_action}>
+        <div className={styles.show_action} onClick={() => handleShow(file)}>
           <i class="bx bx-show"></i>
         </div>
         <div className={styles.line}></div>
@@ -80,7 +99,10 @@ const FileCard = ({ file }) => {
         </div>
         <div className={styles.line}></div>
 
-        <div className={styles.delete_action}>
+        <div
+          className={styles.delete_action}
+          onClick={() => handleDelete(file.id)}
+        >
           <i class="bx bx-trash"></i>
         </div>
       </div>

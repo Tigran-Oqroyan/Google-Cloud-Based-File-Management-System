@@ -1,15 +1,29 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./style.module.scss";
 import { Link } from "react-router-dom";
-import { deleteFiles } from "../../slices/filesDelete";
-import { getFiles } from "../../slices/filesGetSlice";
+import { deleteFiles } from "../../slices/filesDeleteSlice";
+import { clearFiles } from "../../slices/filesGetSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
+  const files = useSelector((state) => state.filesGet.files);
+
   const deleteAll = () => {
     dispatch(deleteFiles());
-    dispatch(getFiles());
+    dispatch(clearFiles());
+  };
+
+  const downloadAll = async (files) => {
+    files.forEach((file, index) => {
+      setTimeout(() => {
+        const iframe = document.createElement("iframe");
+        iframe.style.display = 'none';
+        iframe.src = file.mediaLink;
+        document.body.appendChild(iframe);
+        setTimeout(() => document.body.removeChild(iframe), 5000);
+      }, index * 200);
+    });
   };
 
   return (
@@ -25,7 +39,14 @@ const Navbar = () => {
         >
           Delete All
         </div>
-        <div className={styles.downloadAll}>Download All</div>
+        <div
+          className={styles.downloadAll}
+          onClick={() => {
+            downloadAll(files);
+          }}
+        >
+          Download All
+        </div>
         <div className={styles.selectAll}>Select All</div>
 
         <Link className={styles.uploadButton} to="/upload">
