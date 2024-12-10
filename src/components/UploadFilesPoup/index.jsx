@@ -106,7 +106,8 @@ const UploadFilesPopup = ({ onClose }) => {
               <div className={styles.noUploadedFiles}>
                 {" "}
                 <div className={styles.noUploadedFilesInner}>
-                  There is no uploaded files yet ...
+                  <i class={`bx bx-file-find ${styles.bx_file_find}`}></i>
+                  There is no uploaded files
                 </div>{" "}
               </div>
             )}
@@ -136,7 +137,10 @@ const UploadFilesPopup = ({ onClose }) => {
             }`}
           >
             {images.length <= 0 ? (
-              "There io no uploaded images to show yet ..."
+              <div className={styles.noUploadedFilesToShow}>
+                <i class={`bx bx-file-find ${styles.bx_file_find}`}></i>
+                <div>There is no uploaded files to show</div>
+              </div>
             ) : (
               <img
                 className={styles.sliderImage}

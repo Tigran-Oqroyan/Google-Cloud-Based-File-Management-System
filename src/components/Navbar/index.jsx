@@ -5,16 +5,19 @@ import { Link } from "react-router-dom";
 import { deleteFiles } from "../../slices/filesDeleteSlice";
 import { clearFiles } from "../../slices/filesGetSlice";
 import UploadFilesPopup from "../UploadFilesPoup";
+import DeleteFilesPopup from "../DeleteFilesPopup";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const [showPopup, setShowPopup] = useState(false);
+  const [showDelPopup, setShowDelPopup] = useState(false);
   const files = useSelector((state) => state.filesGet.files);
 
   const deleteAll = () => {
     if (files.length > 0) {
       dispatch(deleteFiles());
       dispatch(clearFiles());
+      setShowDelPopup(false);
     }
   };
 
@@ -37,12 +40,7 @@ const Navbar = () => {
       <div className={styles.logo}>BoomUpload</div>
 
       <div className={styles.actions}>
-        <div
-          className={styles.deleteAll}
-          onClick={() => {
-            deleteAll();
-          }}
-        >
+        <div className={styles.deleteAll} onClick={() => setShowDelPopup(true)}>
           Delete All
         </div>
         <div
@@ -62,6 +60,13 @@ const Navbar = () => {
           Upload
         </button>
         {showPopup && <UploadFilesPopup onClose={() => setShowPopup(false)} />}
+        {showDelPopup && (
+          <DeleteFilesPopup
+            onClose={() => setShowDelPopup(false)}
+            onDelete={() => deleteAll()}
+            message="Are you sure you want to delete all your files ?"
+          />
+        )}
       </div>
     </div>
   );

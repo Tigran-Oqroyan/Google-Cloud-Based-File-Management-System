@@ -23,11 +23,12 @@
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  gap: 20px;  
+  gap: 20px;
 }
 
 .uploadWrapper {
-    width: 50%;
+  height: calc(100vh - 253px);
+  width: 50%;
 
   .dropAndClickWrapper {
     display: flex;
@@ -102,13 +103,18 @@
 
       .noUploadedFilesInner {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         width: 100%;
         height: 100%;
         border: 2px dashed rgb(132, 132, 132);
         border-radius: 15px;
-        font-size: 20px;
+        font-size: 25px;
+
+        .bx_file_find {
+          font-size: 40px;
+        }
       }
     }
 
@@ -141,10 +147,20 @@
     justify-content: center;
     border-radius: 15px;
     border: 2px dashed rgb(132, 132, 132);
-    font-size: 20px;
+    font-size: 25px;
     position: relative;
     height: 691px;
 
+    .noUploadedFilesToShow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      .bx_file_find {
+        font-size: 40px;
+      }
+    }
   }
 
   .showSlider {
@@ -156,7 +172,6 @@
     position: relative;
     height: 100%;
     height: 700px;
-
 
     .sliderImage {
       width: 100%;

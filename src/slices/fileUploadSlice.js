@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { getFiles } from "./filesGetSlice";
 
 export const uploadFile = createAsyncThunk(
   "fileUpload/uploadFile",
-  async (file, { rejectWithValue }) => {
+  async (file, { dispatch, rejectWithValue }) => {
     const formData = new FormData();
     formData.append("file", file);
 
@@ -19,7 +20,9 @@ export const uploadFile = createAsyncThunk(
           "Access-Control-Allow-Origin": "*",
         },
       });
-
+      
+      dispatch(getFiles())
+        
       return {
         fileMetadata: { name: file.name, size: file.size, type: file.type },
         data: response.data,

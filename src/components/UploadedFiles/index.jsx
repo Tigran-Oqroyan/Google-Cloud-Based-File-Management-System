@@ -12,6 +12,8 @@ import Failed from "../../IconComponents/Failed";
 const UploadedFiles = () => {
   const dispatch = useDispatch();
   const files = useSelector((state) => state.filesGet.files);
+  const fileType = useSelector((state) => state.fileType.type);
+
   const filesGetLoading = useSelector((state) => state.filesGet.loading);
   const filesGetError = useSelector((state) => state.filesGet.error);
 
@@ -20,6 +22,40 @@ const UploadedFiles = () => {
 
   const deleteFileLoading = useSelector((state) => state.fileDelete.loading);
   const deleteFileError = useSelector((state) => state.fileDelete.error);
+
+  const filteredFiles = React.useMemo(() => {
+    switch (fileType) {
+      case "all":
+        return files;
+      case "images":
+        return files.filter((file) => {
+          const fileParts = file?.name?.split(".");
+          const type = fileParts[fileParts.length - 1]?.toLowerCase();
+          return ["jpg", "jpeg", "png", "jfif", "svg", "gif"].includes(type);
+        });
+      case "videos":
+        return files.filter((file) => {
+          const fileParts = file?.name?.split(".");
+          const type = fileParts[fileParts.length - 1]?.toLowerCase();
+          return ["mp4", "mov", "webm", "mkv"].includes(type);
+        });
+      case "documents":
+        return files.filter((file) => {
+          const fileParts = file?.name.split(".");
+          const type = fileParts[fileParts.length - 1]?.toLowerCase();
+          return [".doc", ".docx"].includes(type);
+        })
+        break;
+      case "presentations":
+        return files.filter((file) => {
+          const fileParts = file?.name.split(".");
+          const type = fileParts[fileParts.length - 1]?.toLowerCase();
+          return [".pptx", ".pptm"].includes(type);
+        })
+      default:
+        return [];
+    }
+  }, [files, fileType]);
 
   useEffect(() => {
     dispatch(getFiles());
@@ -34,9 +70,9 @@ const UploadedFiles = () => {
           <div className={styles.filesGetLoading}>
             <Loader />
           </div>
-        ) : files.length > 0 ? (
+        ) : filteredFiles.length > 0 ? (
           <div className={styles.files_wrapper}>
-            {files.map((file) => {
+            {filteredFiles.map((file) => {
               return <FileCard key={file.id} file={file} />;
             })}
           </div>
@@ -47,7 +83,7 @@ const UploadedFiles = () => {
         ) : (
           <div className={styles.noFilesWrapper}>
             <i class={`bx bx-file-find ${styles.bx_file_find}`}></i>
-            No files found
+            There is no uploaded files to show
           </div>
         )}
       </div>
