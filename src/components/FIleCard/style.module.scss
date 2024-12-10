@@ -10,9 +10,13 @@
   transition: all 0.2s ease;
   background-color: white;
 
-  &:hover{
+  &:hover {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    transform: scale(1.01);
+  }
+
+  .noContent {
+    font-size: 20px;
+    font-family: "Montserrat", sans-serif;
   }
 
   .image_wrapper {

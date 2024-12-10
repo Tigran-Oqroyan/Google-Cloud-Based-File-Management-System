@@ -46,7 +46,8 @@ const UploadedFiles = () => {
           </div>
         ) : (
           <div className={styles.noFilesWrapper}>
-            There are no files to show
+            <i class={`bx bx-file-find ${styles.bx_file_find}`}></i>
+            No files found
           </div>
         )}
       </div>

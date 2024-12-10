@@ -11,7 +11,7 @@ export const getFiles = createAsyncThunk(
 
     try {
       const response = await axios.get(url);
-      return response.data.files; // Assuming the API returns a `files` property
+      return response.data.files;
     } catch (error) {
       return rejectWithValue(
         error.response && error.response.data

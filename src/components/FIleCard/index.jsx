@@ -5,19 +5,20 @@ import Failed from "../../IconComponents/Failed";
 import Loader from "../../IconComponents/Loader";
 import { deleteFile } from "../../slices/fileDeleteSlice";
 import { deleteFileById } from "../../slices/filesGetSlice";
+import DeleteFilesPopup from "../DeleteFilesPopup";
 
-const ImageWithFallBack = ({ src, alt, LoadingComponent, FailedComponent }) => {
+const ImageWithFallBack = ({ file, alt, LoadingComponent }) => {
   const [status, setStatus] = useState("loading"); // Possible states: 'loading', 'loaded', 'error'
 
   useEffect(() => {
     const img = new Image();
     img.onload = () => setStatus("loaded");
     img.onerror = () => setStatus("error");
-    img.src = src;
-  }, [src]);
+    img.src = file.mediaLink;
+  }, [file.mediaLink]);
 
   if (status === "error") {
-    return <FailedComponent />;
+    return <div className={styles.noContent}>No Content</div>;
   }
 
   if (status === "loading") {
@@ -25,7 +26,7 @@ const ImageWithFallBack = ({ src, alt, LoadingComponent, FailedComponent }) => {
   }
 
   if (status === "loaded") {
-    return <img src={src} alt={alt} />;
+    return <img src={file.mediaLink} alt={alt} />;
   }
 
   return null;
@@ -33,17 +34,19 @@ const ImageWithFallBack = ({ src, alt, LoadingComponent, FailedComponent }) => {
 
 const FileCard = ({ file }) => {
   const dispatch = useDispatch();
+  const [showPopup, setShowPopup] = useState(false);
 
   const handleShow = (file) => {
-    if (file && file.publicLink) {
-      try {
-        window.open(file.publicLink, "_blank");
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      console.warn("Invalid file or missing publicLink");
-    }
+    const img = new Image();
+    img.onload = () => {
+      window.open(file.publicLink, "_blank");
+    };
+    img.onerror = () => {
+      alert(
+        "Sorry but currently you can not see the whole image. But in any case you can download it and look"
+      );
+    };
+    img.src = file.publicLink;
   };
 
   const handleDownload = (file) => {
@@ -59,6 +62,7 @@ const FileCard = ({ file }) => {
   const handleDelete = (id) => {
     dispatch(deleteFile([id]));
     dispatch(deleteFileById(id));
+    setShowPopup(false);
   };
 
   const convertSize = (size) => {
@@ -77,10 +81,9 @@ const FileCard = ({ file }) => {
     <div className={styles.card_wrapper}>
       <div className={styles.image_wrapper}>
         <ImageWithFallBack
-          src={file.publicLink}
+          file={file}
           alt={file.name}
           LoadingComponent={Loader}
-          FailedComponent={Failed}
         />
       </div>
       <div className={styles.card_description}>{getName(file.name)}</div>
@@ -101,11 +104,18 @@ const FileCard = ({ file }) => {
 
         <div
           className={styles.delete_action}
-          onClick={() => handleDelete(file.id)}
+          onClick={() => setShowPopup(true)}
         >
           <i class="bx bx-trash"></i>
         </div>
       </div>
+      {showPopup && (
+        <DeleteFilesPopup
+          onClose={() => setShowPopup(false)}
+          onDelete={() => handleDelete(file.id)}
+          message={"Are you sure you want to delete this file ?"}
+        />
+      )}
     </div>
   );
 };

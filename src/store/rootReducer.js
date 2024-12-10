@@ -3,12 +3,14 @@ import fileUploadSlice from "../slices/fileUploadSlice";
 import filesGetSlice from "../slices/filesGetSlice";
 import filesDeleteSlice from "../slices/filesDeleteSlice";
 import fileDeleteSlice from "../slices/fileDeleteSlice";
+import fileTypeSlice from "../slices/fileTypeSlice";
 
 const rootReducer = combineReducers({
-  fileUpload: fileUploadSlice, // matches the name you used in `useSelector`
+  fileUpload: fileUploadSlice,
   filesGet: filesGetSlice,
   filesDelete: filesDeleteSlice,
   fileDelete: fileDeleteSlice,
+  fileType: fileTypeSlice,
 });
 
 export default rootReducer;
