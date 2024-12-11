@@ -20,7 +20,7 @@ export const uploadFile = createAsyncThunk(
           "Access-Control-Allow-Origin": "*",
         },
       });
-      console.log("FILE UPLOAD RESPONSE", response)
+
       dispatch(getFiles());
 
       return {

@@ -37,6 +37,10 @@ const filesGetSlice = createSlice({
       const id = action.payload;
       state.files = state.files.filter((file) => file.id !== id);
     },
+    deleteFilesById: (state, action) => {
+      const ids = action.payload;
+      state.files = state.files.filter((file) => !ids.includes(file.id));
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -55,5 +59,5 @@ const filesGetSlice = createSlice({
   },
 });
 
-export const { clearFiles, deleteFileById } = filesGetSlice.actions;
+export const { clearFiles, deleteFileById, deleteFilesById } = filesGetSlice.actions;
 export default filesGetSlice.reducer;

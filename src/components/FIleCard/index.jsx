@@ -94,6 +94,22 @@ const FileCard = ({ file, isSelected, onCheckboxChange }) => {
           checked={isSelected}
           onChange={handleCheckboxChange}
         />
+        <div className={styles.show_action} onClick={() => handleShow(file)}>
+          <i class="bx bx-show"></i>
+        </div>
+        <div
+          className={styles.download_action}
+          onClick={() => handleDownload(file)}
+        >
+          <i class="bx bx-cloud-download"></i>
+        </div>
+
+        <div
+          className={styles.delete_action}
+          onClick={() => setShowPopup(true)}
+        >
+          <i class="bx bx-trash"></i>
+        </div>
       </div>
 
       <div className={styles.image_wrapper}>
@@ -105,27 +121,6 @@ const FileCard = ({ file, isSelected, onCheckboxChange }) => {
       </div>
       <div className={styles.card_description}>{getName(file.name)}</div>
       <div className={styles.file_size}>{convertSize(file.size)} KB</div>
-
-      <div className={styles.actions}>
-        <div className={styles.show_action} onClick={() => handleShow(file)}>
-          <i class="bx bx-show"></i>
-        </div>
-        <div className={styles.line}></div>
-        <div
-          className={styles.download_action}
-          onClick={() => handleDownload(file)}
-        >
-          <i class="bx bx-cloud-download"></i>
-        </div>
-        <div className={styles.line}></div>
-
-        <div
-          className={styles.delete_action}
-          onClick={() => setShowPopup(true)}
-        >
-          <i class="bx bx-trash"></i>
-        </div>
-      </div>
       {showPopup && (
         <DeleteFilesPopup
           onClose={() => setShowPopup(false)}
