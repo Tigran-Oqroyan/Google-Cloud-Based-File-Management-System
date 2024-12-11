@@ -8,7 +8,7 @@ import { deleteFileById } from "../../slices/filesGetSlice";
 import DeleteFilesPopup from "../DeleteFilesPopup";
 
 const ImageWithFallBack = ({ file, alt, LoadingComponent }) => {
-  const [status, setStatus] = useState("loading"); // Possible states: 'loading', 'loaded', 'error'
+  const [status, setStatus] = useState("loading");
 
   useEffect(() => {
     const img = new Image();
@@ -32,9 +32,14 @@ const ImageWithFallBack = ({ file, alt, LoadingComponent }) => {
   return null;
 };
 
-const FileCard = ({ file }) => {
+const FileCard = ({ file, isSelected, onCheckboxChange }) => {
   const dispatch = useDispatch();
   const [showPopup, setShowPopup] = useState(false);
+
+  const handleCheckboxChange = () => {
+    const newSelectedState = !isSelected;
+    onCheckboxChange(file.id, newSelectedState);
+  };
 
   const handleShow = (file) => {
     const img = new Image();
@@ -79,6 +84,18 @@ const FileCard = ({ file }) => {
 
   return (
     <div className={styles.card_wrapper}>
+      <div
+        className={`${styles.select_card_checkbox} ${
+          isSelected && styles.selected
+        }`}
+      >
+        <input
+          type="checkbox"
+          checked={isSelected}
+          onChange={handleCheckboxChange}
+        />
+      </div>
+
       <div className={styles.image_wrapper}>
         <ImageWithFallBack
           file={file}

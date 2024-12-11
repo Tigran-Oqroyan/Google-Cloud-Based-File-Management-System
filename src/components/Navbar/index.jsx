@@ -8,7 +8,7 @@ import UploadFilesPopup from "../UploadFilesPoup";
 import DeleteFilesPopup from "../DeleteFilesPopup";
 import { clearUploadedFiles } from "../../slices/fileUploadSlice";
 
-const Navbar = () => {
+const Navbar = ({ isAllSelected, handleSelectAll }) => {
   const dispatch = useDispatch();
   const [showPopup, setShowPopup] = useState(false);
   const [showDelPopup, setShowDelPopup] = useState(false);
@@ -57,7 +57,14 @@ const Navbar = () => {
         >
           Download All
         </div>
-        <div className={styles.selectAll}>Select All</div>
+        <div
+          className={`${styles.selectAll} ${
+            isAllSelected && styles.allSelected
+          }`}
+          onClick={handleSelectAll}
+        >
+          {isAllSelected ? "Deselect All" : "Select All"}
+        </div>
 
         <button
           className={styles.uploadButton}
@@ -70,7 +77,7 @@ const Navbar = () => {
           <DeleteFilesPopup
             onClose={() => setShowDelPopup(false)}
             onDelete={() => deleteAll()}
-            message="Are you sure you want to delete all your files ?"
+            message="Are you sure you want to delete all your files?"
           />
         )}
       </div>

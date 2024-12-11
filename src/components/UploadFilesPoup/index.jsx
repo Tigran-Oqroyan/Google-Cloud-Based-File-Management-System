@@ -13,7 +13,7 @@ const UploadFilesPopup = ({ onClose }) => {
   const dispatch = useDispatch();
   const [currentImage, setCurrentImage] = useState(0);
   const files = useSelector((state) => state.fileUpload.files);
-  console.log(files);
+
   const images = files.filter((file) => {
     return file.fileMetadata.type.slice(0, 5) === "image";
   });

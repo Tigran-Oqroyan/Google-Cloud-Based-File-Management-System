@@ -58,6 +58,10 @@
       }
     }
 
+    .selectAll.allSelected {
+      border: 1px solid #999999;
+    }
+
     .downloadAll {
       display: flex;
       align-items: center;

@@ -6,6 +6,11 @@ import Navbar from "../Navbar";
 import Sidebar from "../Sidebar";
 import { useSelector } from "react-redux";
 import { getFiles } from "../../slices/filesGetSlice";
+import {
+  selectFile,
+  selectAllFiles,
+  deselectAllFiles,
+} from "../../slices/selectedFilesSlice";
 import Loader from "../../IconComponents/Loader";
 import Failed from "../../IconComponents/Failed";
 
@@ -23,6 +28,26 @@ const UploadedFiles = () => {
   const deleteFileLoading = useSelector((state) => state.fileDelete.loading);
   const deleteFileError = useSelector((state) => state.fileDelete.error);
 
+  const selectedFiles = useSelector((state) => state.selectedFiles);
+  const isAllSelected =
+    files.length > 0 && files.every((file) => selectedFiles.includes(file.id));
+
+  useEffect(() => {
+    dispatch(getFiles());
+  }, [dispatch]);
+
+  const handleSelectAll = () => {
+    if (isAllSelected) {
+      dispatch(deselectAllFiles());
+    } else {
+      dispatch(selectAllFiles({ files, isSelected: true }));
+    }
+  };
+
+  const handleCheckboxChange = (fileId, isSelected) => {
+    dispatch(selectFile({ fileId, isSelected }));
+  };
+
   const filteredFiles = React.useMemo(() => {
     const extensionMap = {
       all: null,
@@ -33,25 +58,24 @@ const UploadedFiles = () => {
       tables: ["xlsx", "xls"],
       pdf: ["pdf"],
       csv: ["csv"],
-      json: ["json"]
+      json: ["json"],
     };
-  
+
     if (fileType === "all") {
       return files;
     }
-  
+
     const allowedExtensions = extensionMap[fileType];
     if (!allowedExtensions) {
       return [];
     }
-  
+
     return files.filter((file) => {
       const fileParts = file?.name?.split(".");
       const type = fileParts?.[fileParts.length - 1]?.toLowerCase();
       return allowedExtensions.includes(type);
     });
   }, [files, fileType]);
-  
 
   useEffect(() => {
     dispatch(getFiles());
@@ -59,7 +83,7 @@ const UploadedFiles = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar isAllSelected={isAllSelected} handleSelectAll={handleSelectAll} />
       <div className={styles.sidebar_files_wrapper}>
         <Sidebar />
         {deleteFileLoading || filesGetLoading || deleteFilesLoading ? (
@@ -69,7 +93,14 @@ const UploadedFiles = () => {
         ) : filteredFiles.length > 0 ? (
           <div className={styles.files_wrapper}>
             {filteredFiles.map((file) => {
-              return <FileCard key={file.id} file={file} />;
+              return (
+                <FileCard
+                  key={file.id}
+                  file={file}
+                  isSelected={selectedFiles.includes(file.id)}
+                  onCheckboxChange={handleCheckboxChange}
+                />
+              );
             })}
           </div>
         ) : filesGetError ? (
