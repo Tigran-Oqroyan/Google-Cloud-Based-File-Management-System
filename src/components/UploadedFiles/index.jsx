@@ -24,38 +24,34 @@ const UploadedFiles = () => {
   const deleteFileError = useSelector((state) => state.fileDelete.error);
 
   const filteredFiles = React.useMemo(() => {
-    switch (fileType) {
-      case "all":
-        return files;
-      case "images":
-        return files.filter((file) => {
-          const fileParts = file?.name?.split(".");
-          const type = fileParts[fileParts.length - 1]?.toLowerCase();
-          return ["jpg", "jpeg", "png", "jfif", "svg", "gif"].includes(type);
-        });
-      case "videos":
-        return files.filter((file) => {
-          const fileParts = file?.name?.split(".");
-          const type = fileParts[fileParts.length - 1]?.toLowerCase();
-          return ["mp4", "mov", "webm", "mkv"].includes(type);
-        });
-      case "documents":
-        return files.filter((file) => {
-          const fileParts = file?.name.split(".");
-          const type = fileParts[fileParts.length - 1]?.toLowerCase();
-          return [".doc", ".docx"].includes(type);
-        })
-        break;
-      case "presentations":
-        return files.filter((file) => {
-          const fileParts = file?.name.split(".");
-          const type = fileParts[fileParts.length - 1]?.toLowerCase();
-          return [".pptx", ".pptm"].includes(type);
-        })
-      default:
-        return [];
+    const extensionMap = {
+      all: null,
+      images: ["jpg", "jpeg", "png", "jfif", "svg", "gif"],
+      videos: ["mp4", "mov", "webm", "mkv"],
+      documents: ["doc", "docx"],
+      presentations: ["pptx", "pptm"],
+      tables: ["xlsx", "xls"],
+      pdf: ["pdf"],
+      csv: ["csv"],
+      json: ["json"]
+    };
+  
+    if (fileType === "all") {
+      return files;
     }
+  
+    const allowedExtensions = extensionMap[fileType];
+    if (!allowedExtensions) {
+      return [];
+    }
+  
+    return files.filter((file) => {
+      const fileParts = file?.name?.split(".");
+      const type = fileParts?.[fileParts.length - 1]?.toLowerCase();
+      return allowedExtensions.includes(type);
+    });
   }, [files, fileType]);
+  
 
   useEffect(() => {
     dispatch(getFiles());

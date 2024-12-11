@@ -6,6 +6,7 @@ import { deleteFiles } from "../../slices/filesDeleteSlice";
 import { clearFiles } from "../../slices/filesGetSlice";
 import UploadFilesPopup from "../UploadFilesPoup";
 import DeleteFilesPopup from "../DeleteFilesPopup";
+import { clearUploadedFiles } from "../../slices/fileUploadSlice";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,11 @@ const Navbar = () => {
     }
   };
 
+  const handleClose = () => {
+    dispatch(clearUploadedFiles());
+    setShowPopup(false);
+  };
+
   return (
     <div className={styles.navbar}>
       <div className={styles.logo}>BoomUpload</div>
@@ -59,7 +65,7 @@ const Navbar = () => {
         >
           Upload
         </button>
-        {showPopup && <UploadFilesPopup onClose={() => setShowPopup(false)} />}
+        {showPopup && <UploadFilesPopup onClose={() => handleClose()} />}
         {showDelPopup && (
           <DeleteFilesPopup
             onClose={() => setShowDelPopup(false)}

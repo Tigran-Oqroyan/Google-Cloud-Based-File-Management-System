@@ -20,9 +20,9 @@ export const uploadFile = createAsyncThunk(
           "Access-Control-Allow-Origin": "*",
         },
       });
-      
-      dispatch(getFiles())
-        
+      console.log("FILE UPLOAD RESPONSE", response)
+      dispatch(getFiles());
+
       return {
         fileMetadata: { name: file.name, size: file.size, type: file.type },
         data: response.data,
@@ -54,6 +54,9 @@ const fileUploadSlice = createSlice({
         });
       });
     },
+    clearUploadedFiles: (state) => {
+      state.files = [];
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -84,5 +87,5 @@ const fileUploadSlice = createSlice({
   },
 });
 
-export const { addFiles } = fileUploadSlice.actions;
+export const { addFiles, clearUploadedFiles } = fileUploadSlice.actions;
 export default fileUploadSlice.reducer;
