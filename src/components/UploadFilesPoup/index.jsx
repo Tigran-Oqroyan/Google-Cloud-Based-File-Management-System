@@ -20,17 +20,11 @@ const UploadFilesPopup = ({ onClose }) => {
 
   const handleFiles = (selectedFiles) => {
     const fileArray = Array.from(selectedFiles);
-    const validFiles = fileArray.filter((file) => {
-      return file.type.startsWith("image/");
-    });
 
-    if (validFiles.length < fileArray.length) {
-      alert("Some files were not images and have been ignored.");
-    }
-    dispatch(addFiles(validFiles));
+    dispatch(addFiles(fileArray));
 
     // Trigger upload for each file
-    validFiles.forEach((file) => {
+    fileArray.forEach((file) => {
       dispatch(uploadFile(file));
     });
   };
@@ -91,7 +85,6 @@ const UploadFilesPopup = ({ onClose }) => {
                 id="file-upload"
                 type="file"
                 multiple
-                accept="image/*"
                 onChange={handleFileChange}
               />
             </div>

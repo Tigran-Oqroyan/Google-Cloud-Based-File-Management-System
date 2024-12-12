@@ -29,20 +29,10 @@ const UploadedFiles = () => {
   const deleteFileError = useSelector((state) => state.fileDelete.error);
 
   const selectedFiles = useSelector((state) => state.selectedFiles);
-  const isAllSelected =
-    files.length > 0 && files.every((file) => selectedFiles.includes(file.id));
 
   useEffect(() => {
     dispatch(getFiles());
   }, [dispatch]);
-
-  const handleSelectAll = () => {
-    if (isAllSelected) {
-      dispatch(deselectAllFiles());
-    } else {
-      dispatch(selectAllFiles({ files, isSelected: true }));
-    }
-  };
 
   const handleCheckboxChange = (fileId, isSelected) => {
     dispatch(selectFile({ fileId, isSelected }));
@@ -51,14 +41,18 @@ const UploadedFiles = () => {
   const filteredFiles = React.useMemo(() => {
     const extensionMap = {
       all: null,
-      images: ["jpg", "jpeg", "png", "jfif", "svg", "gif"],
+      images: ["jpg", "jpeg", "png", "jfif"],
+      svg: ["svg"],
       videos: ["mp4", "mov", "webm", "mkv"],
-      documents: ["doc", "docx"],
+      documents: ["doc", "docx", "txt"],
       presentations: ["pptx", "pptm"],
       tables: ["xlsx", "xls"],
       pdf: ["pdf"],
       csv: ["csv"],
       json: ["json"],
+      exe: ["exe"],
+      zip: ["zip"],
+      gif: ["gif"],
     };
 
     if (fileType === "all") {
@@ -76,6 +70,19 @@ const UploadedFiles = () => {
       return allowedExtensions.includes(type);
     });
   }, [files, fileType]);
+
+  const isAllSelected =
+    filteredFiles.length > 0 &&
+    filteredFiles.every((file) => selectedFiles.includes(file.id));
+
+  const handleSelectAll = () => {
+    if (isAllSelected) {
+      dispatch(deselectAllFiles());
+    } else {
+      console.log(1111, filteredFiles);
+      dispatch(selectAllFiles({ filteredFiles, isSelected: true }));
+    }
+  };
 
   useEffect(() => {
     dispatch(getFiles());

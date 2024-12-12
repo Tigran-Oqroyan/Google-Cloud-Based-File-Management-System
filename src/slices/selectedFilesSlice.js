@@ -15,9 +15,9 @@ const selectedFilesSlice = createSlice({
       }
     },
     selectAllFiles: (state, action) => {
-      const { files, isSelected } = action.payload;
+      const { filteredFiles, isSelected } = action.payload;
       if (isSelected) {
-        return files.map((file) => file.id); // Add all file IDs to the array if selected
+        return filteredFiles.map((file) => file.id); // Add all file IDs to the array if selected
       } else {
         return []; // Clear the array if deselected
       }

@@ -15,12 +15,49 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
   const [showDelPoup, setShowDelPopup] = useState(false);
   const [showDelAllPopup, setShowDelAllPopup] = useState(false);
   const files = useSelector((state) => state.filesGet.files);
+  const fileType = useSelector((state) => state.fileType.type);
   const selectedFiles = useSelector((state) => state.selectedFiles);
 
+  const filteredFiles = React.useMemo(() => {
+    const extensionMap = {
+      all: null,
+      images: ["jpg", "jpeg", "png", "jfif"],
+      videos: ["mp4", "mov", "webm", "mkv"],
+      documents: ["doc", "docx", "txt"],
+      presentations: ["pptx", "pptm"],
+      tables: ["xlsx", "xls"],
+      pdf: ["pdf"],
+      csv: ["csv"],
+      json: ["json"],
+      exe: ["exe"],
+      svg: ["svg"],
+      zip: ["zip"],
+      gif: ["gif"],
+    };
+
+    if (fileType === "all") {
+      return files;
+    }
+
+    const allowedExtensions = extensionMap[fileType];
+    if (!allowedExtensions) {
+      return [];
+    }
+
+    return files.filter((file) => {
+      const fileParts = file?.name?.split(".");
+      const type = fileParts?.[fileParts.length - 1]?.toLowerCase();
+      return allowedExtensions.includes(type);
+    });
+  }, [files, fileType]);
+
   const deleteAll = () => {
-    if (files.length > 0) {
-      dispatch(deleteFiles());
-      dispatch(clearFiles());
+    if (filteredFiles.length > 0) {
+      const ids = filteredFiles.map((file) => {
+        return file.id;
+      });
+      dispatch(deleteFile(ids));
+      dispatch(deleteFilesById(ids));
       dispatch(deselectAllFiles());
       setShowDelAllPopup(false);
     }
@@ -75,13 +112,15 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
       <div className={styles.logo}>BoomUpload</div>
 
       <div className={styles.actions}>
-        <div
-          className={styles.deleteAll}
-          onClick={() => setShowDelAllPopup(true)}
-        >
-          Delete All
-        </div>
-        {selectedFiles.length > 0 && (
+        {filteredFiles.length > 0 && (
+          <div
+            className={styles.deleteAll}
+            onClick={() => setShowDelAllPopup(true)}
+          >
+            Delete All
+          </div>
+        )}
+        {filteredFiles.length > 0 && selectedFiles.length > 0 && (
           <div
             className={styles.deleteAll}
             onClick={() => setShowDelPopup(true)}
@@ -89,33 +128,36 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
             Delete
           </div>
         )}
-        <div
-          className={styles.downloadAll}
-          onClick={() => {
-            downloadAll(files);
-          }}
-        >
-          Download All
-        </div>
-        {selectedFiles.length > 0 && (
+        {filteredFiles.length > 0 && (
           <div
             className={styles.downloadAll}
             onClick={() => {
-              downloadSelected(files, selectedFiles);
+              downloadAll(filteredFiles);
+            }}
+          >
+            Download All
+          </div>
+        )}
+        {filteredFiles.length > 0 && selectedFiles.length > 0 && (
+          <div
+            className={styles.downloadAll}
+            onClick={() => {
+              downloadSelected(filteredFiles, selectedFiles);
             }}
           >
             Download
           </div>
         )}
-        <div
-          className={`${styles.selectAll} ${
-            isAllSelected && styles.allSelected
-          }`}
-          onClick={handleSelectAll}
-        >
-          {isAllSelected ? "Deselect All" : "Select All"}
-        </div>
-
+        {filteredFiles.length > 0 && (
+          <div
+            className={`${styles.selectAll} ${
+              isAllSelected && styles.allSelected
+            }`}
+            onClick={handleSelectAll}
+          >
+            {isAllSelected ? "Deselect All" : "Select All"}
+          </div>
+        )}
         <button
           className={styles.uploadButton}
           onClick={() => setShowPopup(true)}

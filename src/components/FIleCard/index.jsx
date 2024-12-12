@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styles from "./style.module.scss";
-import Failed from "../../IconComponents/Failed";
 import Loader from "../../IconComponents/Loader";
 import { deleteFile } from "../../slices/fileDeleteSlice";
 import { deleteFileById } from "../../slices/filesGetSlice";
 import DeleteFilesPopup from "../DeleteFilesPopup";
 
 const ImageWithFallBack = ({ file, alt, LoadingComponent }) => {
+  console.log("File", file);
   const [status, setStatus] = useState("loading");
 
   useEffect(() => {
@@ -18,7 +18,27 @@ const ImageWithFallBack = ({ file, alt, LoadingComponent }) => {
   }, [file.mediaLink]);
 
   if (status === "error") {
-    return <div className={styles.noContent}>No Content</div>;
+    const fileNameParts = file.name.split(".");
+    const extension = fileNameParts[fileNameParts.length - 1];
+    switch (extension) {
+      case "doc":
+      case "docs":
+        return <i className={`bx bxs-file-doc ${styles.bxs_file_doc}`}></i>;
+      case "txt":
+        return <i className={`bx bxs-file-txt ${styles.bxs_file_txt}`}></i>;
+      case "pdf":
+        return <i className={`bx bxs-file-pdf ${styles.bxs_file_pdf}`}></i>;
+      case "json":
+        return <i className={`bx bxs-file-json ${styles.bxs_file_json}`}></i>;
+      case "gif":
+        return <i className={`bx bxs-file-gif ${styles.bxs_file_gif}`}></i>;
+      case "zip":
+        return (
+          <i className={`bx bxs-file-archive ${styles.bxs_file_archive}`}></i>
+        );
+      default:
+        return <i className={`bx bxs-file ${styles.bxs_file}`}></i>;
+    }
   }
 
   if (status === "loading") {
@@ -47,9 +67,7 @@ const FileCard = ({ file, isSelected, onCheckboxChange }) => {
       window.open(file.publicLink, "_blank");
     };
     img.onerror = () => {
-      alert(
-        "Sorry but currently you can not see the whole image. But in any case you can download it and look"
-      );
+      handleDownload(file);
     };
     img.src = file.publicLink;
   };
