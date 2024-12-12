@@ -7,7 +7,6 @@ const LanguageSelector = () => {
   const dispatch = useDispatch();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const selectedLanguage = useSelector((state) => state.language);
-  const [language, setLanguage] = useState("en");
 
   const languages = [
     { value: "en", label: "English" },
@@ -24,7 +23,6 @@ const LanguageSelector = () => {
   ];
 
   const handleLanguageChange = (language) => {
-    setLanguage(language);
     dispatch(changeLanguage(language));
     setIsDropdownOpen(false);
   };
