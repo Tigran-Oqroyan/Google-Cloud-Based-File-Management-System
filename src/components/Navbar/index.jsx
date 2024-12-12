@@ -86,7 +86,7 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
             className={styles.deleteAll}
             onClick={() => setShowDelPopup(true)}
           >
-            Delete Selected
+            Delete
           </div>
         )}
         <div
@@ -104,7 +104,7 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
               downloadSelected(files, selectedFiles);
             }}
           >
-            Download Selected
+            Download
           </div>
         )}
         <div
