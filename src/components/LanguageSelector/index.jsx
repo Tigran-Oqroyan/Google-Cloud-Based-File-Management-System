@@ -1,12 +1,13 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { changeLanguage } from "../../slices/languageSlice";
 import styles from "./style.module.scss";
 
 const LanguageSelector = () => {
   const dispatch = useDispatch();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("en");
+  const selectedLanguage = useSelector((state) => state.language);
+  const [language, setLanguage] = useState("en");
 
   const languages = [
     { value: "en", label: "English" },
@@ -23,7 +24,7 @@ const LanguageSelector = () => {
   ];
 
   const handleLanguageChange = (language) => {
-    setSelectedLanguage(language);
+    setLanguage(language);
     dispatch(changeLanguage(language));
     setIsDropdownOpen(false);
   };

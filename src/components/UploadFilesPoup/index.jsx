@@ -142,7 +142,7 @@ const UploadFilesPopup = ({ onClose }) => {
                 alt=""
               />
             )}
-            {images.length > 0 && (
+            {images.length > 1 && (
               <div>
                 <Left handlePrev={handlePrev} />
                 <Right handleNext={handleNext} />
