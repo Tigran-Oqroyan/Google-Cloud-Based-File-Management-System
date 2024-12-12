@@ -23,7 +23,7 @@ const ImageWithFallBack = ({ file, alt, LoadingComponent }) => {
     const extension = fileNameParts[fileNameParts.length - 1];
     switch (extension) {
       case "doc":
-      case "docs":
+      case "docx":
         return <i className={`bx bxs-file-doc ${styles.bxs_file_doc}`}></i>;
       case "txt":
         return <i className={`bx bxs-file-txt ${styles.bxs_file_txt}`}></i>;

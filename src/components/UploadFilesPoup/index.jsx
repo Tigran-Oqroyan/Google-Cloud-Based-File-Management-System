@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFiles } from "../../slices/fileUploadSlice";
 import { uploadFile } from "../../slices/fileUploadSlice";
@@ -9,6 +9,58 @@ import Successed from "../../IconComponents/Successed";
 import Left from "../../IconComponents/Left";
 import Right from "../../IconComponents/Right";
 import { useTranslation } from "../../hooks/useTranslation";
+
+const ImageWithFallBack = ({ file, alt }) => {
+  console.log("FFF", file);
+  const [status, setStatus] = useState("loading");
+
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setStatus("loaded");
+    img.onerror = () => setStatus("error");
+    img.src = file.data?.links?.mediaLink;
+  }, [file.data?.links?.mediaLink]);
+
+  if (status === "error") {
+    const fileNameParts = file.fileMetadata.name.split(".");
+    const extension = fileNameParts[fileNameParts.length - 1];
+    switch (extension) {
+      case "doc":
+      case "docx":
+        return <i className={`bx bxs-file-doc ${styles.bxs_file_doc}`}></i>;
+      case "txt":
+        return <i className={`bx bxs-file-txt ${styles.bxs_file_txt}`}></i>;
+      case "pdf":
+        return <i className={`bx bxs-file-pdf ${styles.bxs_file_pdf}`}></i>;
+      case "json":
+        return <i className={`bx bxs-file-json ${styles.bxs_file_json}`}></i>;
+      case "gif":
+        return <i className={`bx bxs-file-gif ${styles.bxs_file_gif}`}></i>;
+      case "zip":
+        return (
+          <i className={`bx bxs-file-archive ${styles.bxs_file_archive}`}></i>
+        );
+      default:
+        return <i className={`bx bxs-file ${styles.bxs_file}`}></i>;
+    }
+  }
+
+  if (status === "loading") {
+    return <div></div>;
+  }
+
+  if (status === "loaded") {
+    return (
+      <img
+        src={file.data?.links?.mediaLink}
+        alt={alt}
+        className={styles.fileImage}
+      />
+    );
+  }
+
+  return null;
+};
 
 const UploadFilesPopup = ({ onClose }) => {
   const { t } = useTranslation();
@@ -107,15 +159,25 @@ const UploadFilesPopup = ({ onClose }) => {
             )}
             {files.map((fileWrapper, index) => (
               <div key={index} className={styles.fileItem}>
-                <img
-                  src={fileWrapper?.data?.links?.publicLink}
-                  className={styles.fileImage}
-                  alt=""
+                <ImageWithFallBack
+                  file={fileWrapper}
+                  alt={fileWrapper.fileMetadata.name}
+                  LoadingComponent={Loader}
                 />
+
                 <span className={styles.fileStatus}>
                   {fileWrapper.status === "pending" && <Loader />}
-                  {fileWrapper.status === "succeeded" && <Successed />}
-                  {fileWrapper.status === "failed" && <Failed />}
+                  {fileWrapper.status === "succeeded" && (
+                    <div className={styles.fileStatus_item_wrapper_success}>
+                      <span>Uploaded</span>
+                      <Successed />
+                    </div>
+                  )}
+                  {fileWrapper.status === "failed" && (
+                    <div className={styles.fileStatus_item_wrapper_failed}>
+                      <span>Failed</span> <Failed />
+                    </div>
+                  )}
                 </span>
               </div>
             ))}
