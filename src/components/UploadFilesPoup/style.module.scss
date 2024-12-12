@@ -38,7 +38,7 @@
     align-items: center;
     width: 100%;
     border-radius: 15px;
-    background-color: white; // rgba(#00a6ff, 0.3);
+    background-color: white;
     margin-bottom: 20px;
 
     .dropAndClickArea {
@@ -81,7 +81,8 @@
 
   .uploadedFiles {
     width: 100%;
-    max-height: calc(100vh - 430px);
+    height: 100%;
+    max-height: 298px;
 
     &::-webkit-scrollbar {
       width: 0px;
