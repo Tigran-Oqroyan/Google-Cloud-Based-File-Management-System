@@ -6,9 +6,9 @@ import { deleteFile } from "../../slices/fileDeleteSlice";
 import { deleteFileById } from "../../slices/filesGetSlice";
 import DeleteFilesPopup from "../DeleteFilesPopup";
 import { useTranslation } from "../../hooks/useTranslation";
+import DownloadFilesPopup from "../DownloadFilesPopup";
 
 const ImageWithFallBack = ({ file, alt, LoadingComponent }) => {
-  console.log("File", file);
   const [status, setStatus] = useState("loading");
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const FileCard = ({ file, isSelected, onCheckboxChange }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [showPopup, setShowPopup] = useState(false);
-
+  const [showDownloadPopup, setShowDownloadPopup] = useState(false);
   const handleCheckboxChange = () => {
     const newSelectedState = !isSelected;
     onCheckboxChange(file.id, newSelectedState);
@@ -82,6 +82,7 @@ const FileCard = ({ file, isSelected, onCheckboxChange }) => {
       document.body.appendChild(iframe);
       setTimeout(() => document.body.removeChild(iframe), 1000);
     }, 200);
+    setShowDownloadPopup(false);
   };
 
   const handleDelete = (id) => {
@@ -119,7 +120,7 @@ const FileCard = ({ file, isSelected, onCheckboxChange }) => {
         </div>
         <div
           className={styles.download_action}
-          onClick={() => handleDownload(file)}
+          onClick={() => setShowDownloadPopup(true)}
         >
           <i class="bx bx-cloud-download"></i>
         </div>
@@ -148,6 +149,13 @@ const FileCard = ({ file, isSelected, onCheckboxChange }) => {
           onClose={() => setShowPopup(false)}
           onDelete={() => handleDelete(file.id)}
           message="Are you sure you want to delete this file ?"
+        />
+      )}
+      {showDownloadPopup && (
+        <DownloadFilesPopup
+          onClose={() => setShowDownloadPopup(false)}
+          onDownload={() => handleDownload(file)}
+          message="Are you sure you want to download this file ?"
         />
       )}
     </div>

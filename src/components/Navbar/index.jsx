@@ -9,6 +9,7 @@ import { deleteFile } from "../../slices/fileDeleteSlice";
 import { deselectAllFiles } from "../../slices/selectedFilesSlice";
 import { useTranslation } from "../../hooks/useTranslation";
 import LanguageSelector from "../LanguageSelector";
+import DownloadFilesPopup from "../DownloadFilesPopup";
 
 const Navbar = ({ isAllSelected, handleSelectAll }) => {
   const { t } = useTranslation();
@@ -16,6 +17,8 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [showDelPoup, setShowDelPopup] = useState(false);
   const [showDelAllPopup, setShowDelAllPopup] = useState(false);
+  const [showDownloadPopup, setDownloadPopup] = useState(false);
+  const [showDownloadAllPopup, setDownloadAllPopup] = useState(false);
   const files = useSelector((state) => state.filesGet.files);
   const fileType = useSelector((state) => state.fileType.type);
   const selectedFiles = useSelector((state) => state.selectedFiles);
@@ -85,6 +88,7 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
           setTimeout(() => document.body.removeChild(iframe), 5000);
         }, index * 200);
       });
+      setDownloadAllPopup(false);
     }
   };
 
@@ -101,6 +105,7 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
           }, index * 200);
         }
       });
+      setDownloadPopup(false);
     }
   };
 
@@ -134,7 +139,7 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
           <div
             className={styles.downloadAll}
             onClick={() => {
-              downloadAll(filteredFiles);
+              setDownloadAllPopup(true);
             }}
           >
             {t("Download All")}
@@ -144,7 +149,7 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
           <div
             className={styles.downloadAll}
             onClick={() => {
-              downloadSelected(filteredFiles, selectedFiles);
+              setDownloadPopup(true);
             }}
           >
             {t("Download")}
@@ -183,6 +188,20 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
             onClose={() => setShowDelPopup(false)}
             onDelete={() => deleteSelected()}
             message="Are you sure you want to delete the selected files ?"
+          />
+        )}
+        {showDownloadPopup && (
+          <DownloadFilesPopup
+            onClose={() => setDownloadPopup(false)}
+            onDownload={() => downloadSelected(filteredFiles, selectedFiles)}
+            message="Are you sure you want to downlod the selected files ?"
+          />
+        )}
+        {showDownloadAllPopup && (
+          <DownloadFilesPopup
+            onClose={() => setDownloadAllPopup(false)}
+            onDownload={() => downloadAll(filteredFiles)}
+            message="Are you sure you want to downlod all your files ?"
           />
         )}
       </div>
