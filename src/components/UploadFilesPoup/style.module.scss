@@ -19,6 +19,8 @@
   align-items: flex-start;
   max-width: 1200px;
   width: 100%;
+  max-height: 600px;
+  height: 100%;
   background: white;
   padding: 20px;
   border-radius: 8px;
@@ -79,7 +81,7 @@
 
   .uploadedFiles {
     width: 100%;
-    max-height: calc(100vh - 560px);
+    max-height: calc(100vh - 430px);
 
     &::-webkit-scrollbar {
       width: 0px;
@@ -99,7 +101,7 @@
       align-items: center;
       justify-content: center;
       border-radius: 10px;
-      height: 370px;
+      height: 280px;
 
       .noUploadedFilesInner {
         display: flex;
@@ -149,14 +151,14 @@
     border: 2px dashed rgb(132, 132, 132);
     font-size: 25px;
     position: relative;
-    height: 691px;
+    height: 600px;
 
     .noUploadedFilesToShow {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-
+      text-align: center;
       .bx_file_find {
         font-size: 40px;
       }
@@ -171,7 +173,7 @@
     font-size: 20px;
     position: relative;
     height: 100%;
-    height: 700px;
+    height: 605px;
 
     .sliderImage {
       width: 100%;
