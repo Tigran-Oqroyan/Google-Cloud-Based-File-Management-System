@@ -7,6 +7,7 @@ import UploadFilesPopup from "../UploadFilesPoup";
 import DeleteFilesPopup from "../DeleteFilesPopup";
 import { clearUploadedFiles } from "../../slices/fileUploadSlice";
 import { deleteFile } from "../../slices/fileDeleteSlice";
+import { deselectAllFiles } from "../../slices/selectedFilesSlice";
 
 const Navbar = ({ isAllSelected, handleSelectAll }) => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
     if (files.length > 0) {
       dispatch(deleteFiles());
       dispatch(clearFiles());
+      dispatch(deselectAllFiles());
       setShowDelAllPopup(false);
     }
   };
@@ -28,6 +30,7 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
     if (selectedFiles.length > 0) {
       dispatch(deleteFile(selectedFiles));
       dispatch(deleteFilesById(selectedFiles));
+      dispatch(deselectAllFiles());
       setShowDelPopup(false);
     }
   };
