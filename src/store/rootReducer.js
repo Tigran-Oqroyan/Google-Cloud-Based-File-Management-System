@@ -5,6 +5,7 @@ import filesDeleteSlice from "../slices/filesDeleteSlice";
 import fileDeleteSlice from "../slices/fileDeleteSlice";
 import fileTypeSlice from "../slices/fileTypeSlice";
 import selectedFilesSlice from '../slices/selectedFilesSlice';
+import languageSlice from '../slices/languageSlice';
 
 const rootReducer = combineReducers({
   fileUpload: fileUploadSlice,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   filesDelete: filesDeleteSlice,
   fileDelete: fileDeleteSlice,
   fileType: fileTypeSlice,
-  selectedFiles: selectedFilesSlice
+  selectedFiles: selectedFilesSlice,
+  language: languageSlice,
 });
 
 export default rootReducer;

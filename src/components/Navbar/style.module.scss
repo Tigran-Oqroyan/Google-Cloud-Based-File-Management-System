@@ -10,6 +10,10 @@
   gap: 20px;
 
   .logo {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
     font-size: 40px;
     font-weight: 300;
     font-family: "Montserrat", sans-serif;
@@ -35,8 +39,8 @@
       transition: all 0.2s ease;
 
       &:hover {
-        background-color: black;
-        color: white;
+        background-color: white;
+        border: 1px solid white;
       }
     }
 
@@ -54,13 +58,17 @@
       transition: all 0.2s ease;
 
       &:hover {
-        background-color: #999999;
-        color: white;
+        background-color: white;
       }
     }
 
     .selectAll.allSelected {
-      border: 1px solid #999999;
+      border: 1px solid rgb(180, 180, 180);
+      transition: all 0.2s ease;
+
+      &:hover {
+        border: 1px solid white;
+      }
     }
 
     .downloadAll {
@@ -77,8 +85,7 @@
       transition: all 0.2s ease;
 
       &:hover {
-        background-color: #999999;
-        color: white;
+        background-color: white;
       }
     }
 

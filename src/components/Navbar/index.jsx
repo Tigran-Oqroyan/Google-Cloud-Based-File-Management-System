@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./style.module.scss";
-import { deleteFiles } from "../../slices/filesDeleteSlice";
-import { clearFiles, deleteFilesById } from "../../slices/filesGetSlice";
+import { deleteFilesById } from "../../slices/filesGetSlice";
 import UploadFilesPopup from "../UploadFilesPoup";
 import DeleteFilesPopup from "../DeleteFilesPopup";
 import { clearUploadedFiles } from "../../slices/fileUploadSlice";
 import { deleteFile } from "../../slices/fileDeleteSlice";
 import { deselectAllFiles } from "../../slices/selectedFilesSlice";
+import { useTranslation } from "../../hooks/useTranslation";
+import LanguageSelector from "../LanguageSelector";
 
 const Navbar = ({ isAllSelected, handleSelectAll }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [showPopup, setShowPopup] = useState(false);
   const [showDelPoup, setShowDelPopup] = useState(false);
@@ -117,7 +119,7 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
             className={styles.deleteAll}
             onClick={() => setShowDelAllPopup(true)}
           >
-            Delete All
+            {t("Delete All")}
           </div>
         )}
         {filteredFiles.length > 0 && selectedFiles.length > 0 && (
@@ -125,7 +127,7 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
             className={styles.deleteAll}
             onClick={() => setShowDelPopup(true)}
           >
-            Delete
+            {t("Delete")}
           </div>
         )}
         {filteredFiles.length > 0 && (
@@ -135,7 +137,7 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
               downloadAll(filteredFiles);
             }}
           >
-            Download All
+            {t("Download All")}
           </div>
         )}
         {filteredFiles.length > 0 && selectedFiles.length > 0 && (
@@ -145,7 +147,7 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
               downloadSelected(filteredFiles, selectedFiles);
             }}
           >
-            Download
+            {t("Download")}
           </div>
         )}
         {filteredFiles.length > 0 && (
@@ -155,28 +157,32 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
             }`}
             onClick={handleSelectAll}
           >
-            {isAllSelected ? "Deselect All" : "Select All"}
+            {isAllSelected ? t("Deselect All") : t("Select All")}
           </div>
         )}
         <button
           className={styles.uploadButton}
-          onClick={() => setShowPopup(true)}
+          onClick={() => {
+            setShowPopup(true);
+            dispatch(deselectAllFiles());
+          }}
         >
-          Upload
+          {t("Upload")}
         </button>
+        <LanguageSelector />
         {showPopup && <UploadFilesPopup onClose={() => handleClose()} />}
         {showDelAllPopup && (
           <DeleteFilesPopup
             onClose={() => setShowDelAllPopup(false)}
             onDelete={() => deleteAll()}
-            message="Are you sure you want to delete all your files?"
+            message="Are you sure you want to delete all your files ?"
           />
         )}
         {showDelPoup && (
           <DeleteFilesPopup
             onClose={() => setShowDelPopup(false)}
             onDelete={() => deleteSelected()}
-            message="Are you sure you want to delete the selected files?"
+            message="Are you sure you want to delete the selected files ?"
           />
         )}
       </div>

@@ -7,7 +7,21 @@
   padding: 0px 20px 0px 20px;
   background-color: #ececec;
   font-family: "Montserrat", sans-serif;
+  overflow: scroll;
 
+  &::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  &::-webkit-scrollbar-trach {
+    background-color: white;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 166, 255, 0.3);
+    border-radius: 20px;
+  }
+  
   .sidebar_item {
     height: 20px;
     padding: 20px 20px;

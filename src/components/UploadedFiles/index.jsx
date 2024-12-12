@@ -13,8 +13,10 @@ import {
 } from "../../slices/selectedFilesSlice";
 import Loader from "../../IconComponents/Loader";
 import Failed from "../../IconComponents/Failed";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const UploadedFiles = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const files = useSelector((state) => state.filesGet.files);
   const fileType = useSelector((state) => state.fileType.type);
@@ -23,10 +25,10 @@ const UploadedFiles = () => {
   const filesGetError = useSelector((state) => state.filesGet.error);
 
   const deleteFilesLoading = useSelector((state) => state.filesDelete.loading);
-  const deleteFilesError = useSelector((state) => state.filesDelete.error);
+  // const deleteFilesError = useSelector((state) => state.filesDelete.error);
 
   const deleteFileLoading = useSelector((state) => state.fileDelete.loading);
-  const deleteFileError = useSelector((state) => state.fileDelete.error);
+  // const deleteFileError = useSelector((state) => state.fileDelete.error);
 
   const selectedFiles = useSelector((state) => state.selectedFiles);
 
@@ -117,7 +119,7 @@ const UploadedFiles = () => {
         ) : (
           <div className={styles.noFilesWrapper}>
             <i class={`bx bx-file-find ${styles.bx_file_find}`}></i>
-            There is no uploaded files to show
+            {t("There is no uploaded files to show")}
           </div>
         )}
       </div>

@@ -3,8 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./style.module.scss";
 import { changeType } from "../../slices/fileTypeSlice";
 import { deselectAllFiles } from "../../slices/selectedFilesSlice";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const Sidebar = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const type = useSelector((state) => state.fileType.type);
 
@@ -19,7 +21,7 @@ const Sidebar = () => {
           dispatch(deselectAllFiles());
         }}
       >
-        All
+        {t("All")}
       </div>
       <div
         className={`${styles.sidebar_item} ${
@@ -30,7 +32,7 @@ const Sidebar = () => {
           dispatch(deselectAllFiles());
         }}
       >
-        Images
+        {t("Images")}
       </div>
       <div
         className={`${styles.sidebar_item} ${
@@ -41,7 +43,7 @@ const Sidebar = () => {
           dispatch(deselectAllFiles());
         }}
       >
-        Videos
+        {t("Videos")}
       </div>
       <div
         className={`${styles.sidebar_item} ${
@@ -52,7 +54,7 @@ const Sidebar = () => {
           dispatch(deselectAllFiles());
         }}
       >
-        Documents
+        {t("Documents")}
       </div>
       <div
         className={`${styles.sidebar_item} ${
@@ -63,12 +65,12 @@ const Sidebar = () => {
           dispatch(deselectAllFiles());
         }}
       >
-        Presentations
+        {t("Presentations")}
       </div>
       <div
         className={`${styles.sidebar_item} ${
           type === "tables" && styles.sidebar_item_active
-        }`} 
+        }`}
         onClick={() => {
           dispatch(changeType("tables"));
           dispatch(deselectAllFiles());

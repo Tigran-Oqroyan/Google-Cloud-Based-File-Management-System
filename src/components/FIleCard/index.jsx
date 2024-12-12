@@ -5,6 +5,7 @@ import Loader from "../../IconComponents/Loader";
 import { deleteFile } from "../../slices/fileDeleteSlice";
 import { deleteFileById } from "../../slices/filesGetSlice";
 import DeleteFilesPopup from "../DeleteFilesPopup";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const ImageWithFallBack = ({ file, alt, LoadingComponent }) => {
   console.log("File", file);
@@ -53,6 +54,7 @@ const ImageWithFallBack = ({ file, alt, LoadingComponent }) => {
 };
 
 const FileCard = ({ file, isSelected, onCheckboxChange }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [showPopup, setShowPopup] = useState(false);
 
@@ -138,12 +140,14 @@ const FileCard = ({ file, isSelected, onCheckboxChange }) => {
         />
       </div>
       <div className={styles.card_description}>{getName(file.name)}</div>
-      <div className={styles.file_size}>{convertSize(file.size)} KB</div>
+      <div className={styles.file_size}>
+        {convertSize(file.size)} {t("KB")}
+      </div>
       {showPopup && (
         <DeleteFilesPopup
           onClose={() => setShowPopup(false)}
           onDelete={() => handleDelete(file.id)}
-          message={"Are you sure you want to delete this file ?"}
+          message="Are you sure you want to delete this file ?"
         />
       )}
     </div>

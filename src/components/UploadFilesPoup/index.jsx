@@ -8,8 +8,10 @@ import Failed from "../../IconComponents/Failed";
 import Successed from "../../IconComponents/Successed";
 import Left from "../../IconComponents/Left";
 import Right from "../../IconComponents/Right";
+import { useTranslation } from "../../hooks/useTranslation";
 
 const UploadFilesPopup = ({ onClose }) => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const [currentImage, setCurrentImage] = useState(0);
   const files = useSelector((state) => state.fileUpload.files);
@@ -73,13 +75,12 @@ const UploadFilesPopup = ({ onClose }) => {
               onDragOver={handleDragOver}
             >
               <i class={`bx bx-cloud-upload ${styles.bx_cloud_upload}`}></i>{" "}
-              <span>Choose a file or drag & drop it here</span>
-              <span>JPG, JPEG, PNG</span>
+              <span>{t("Choose a file or drag and drop it here")}</span>
               <label
                 htmlFor="file-upload"
                 className={styles.custom_file_upload_button}
               >
-                Browse File
+                {t("Browse File")}
               </label>
               <input
                 id="file-upload"
@@ -100,7 +101,7 @@ const UploadFilesPopup = ({ onClose }) => {
                 {" "}
                 <div className={styles.noUploadedFilesInner}>
                   <i class={`bx bx-file-find ${styles.bx_file_find}`}></i>
-                  There is no uploaded files
+                  {t("There is no uploaded files")}
                 </div>{" "}
               </div>
             )}
@@ -132,7 +133,7 @@ const UploadFilesPopup = ({ onClose }) => {
             {images.length <= 0 ? (
               <div className={styles.noUploadedFilesToShow}>
                 <i class={`bx bx-file-find ${styles.bx_file_find}`}></i>
-                <div>There is no uploaded files to show</div>
+                <div>{t("There is no uploaded files to show")}</div>
               </div>
             ) : (
               <img
