@@ -130,15 +130,15 @@
       border-radius: 15px;
       background-color: rgba(#ececec, 0.3);
 
-      .fileStatus{
-        .fileStatus_item_wrapper_success{
+      .fileStatus {
+        .fileStatus_item_wrapper_success {
           color: green;
           display: flex;
           align-items: center;
           gap: 15px;
         }
 
-        .fileStatus_item_wrapper_failed{
+        .fileStatus_item_wrapper_failed {
           color: red;
           display: flex;
           align-items: center;
@@ -152,6 +152,7 @@
       .bxs_file_json,
       .bxs_file_gif,
       .bxs_file_archive,
+      .bxs_file_video,
       .bxs_file {
         font-size: 40px;
       }

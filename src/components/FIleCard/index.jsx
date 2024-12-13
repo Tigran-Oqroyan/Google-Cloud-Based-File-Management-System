@@ -37,6 +37,9 @@ const ImageWithFallBack = ({ file, alt, LoadingComponent }) => {
         return (
           <i className={`bx bxs-file-archive ${styles.bxs_file_archive}`}></i>
         );
+      case "mp4":
+      case "mov":
+        return <i className={`bx bxs-videos ${styles.bxs_file_video}`}></i>;
       default:
         return <i className={`bx bxs-file ${styles.bxs_file}`}></i>;
     }

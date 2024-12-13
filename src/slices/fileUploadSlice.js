@@ -2,49 +2,39 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { getFiles } from "./filesGetSlice";
 
-export const uploadFiles = createAsyncThunk(
-  "fileUpload/uploadFiles",
-  async (files, { dispatch, rejectWithValue }) => {
+export const uploadFile = createAsyncThunk(
+  "fileUpload/uploadFile",
+  async (file, { dispatch, rejectWithValue }) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
     const folder = "wix_uploads/1a2b3c4d5e-6f7g-8h9i-1a2b3-45678cd9e1fg";
-
-    // Prepare an array of file upload promises
-    const uploadPromises = files.map((file) => {
-      const formData = new FormData();
-      formData.append("file", file);
-      const url = `https://form.apiboomtech.com/api/uploadToGoogleCloud?folder=${encodeURIComponent(
-        folder
-      )}&fileName=${encodeURIComponent(file.name)}`;
-
-      return axios
-        .post(url, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            "Access-Control-Allow-Origin": "*",
-          },
-        })
-        .then((response) => ({
-          fileMetadata: { name: file.name, size: file.size, type: file.type },
-          data: response.data,
-        }))
-        .catch((error) => ({
-          fileMetadata: { name: file.name, size: file.size, type: file.type },
-          error:
-            error.response && error.response.data
-              ? error.response.data.error
-              : error.message,
-        }));
-    });
+    const url = `https://form.apiboomtech.com/api/uploadToGoogleCloud?folder=${encodeURIComponent(
+      folder
+    )}&fileName=${encodeURIComponent(file.name)}`;
 
     try {
-      // Wait for all upload promises to complete
-      const results = await Promise.all(uploadPromises);
+      const response = await axios.post(url, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          "Access-Control-Allow-Origin": "*",
+        },
+      });
 
-      // Dispatch to update the files state after all uploads finish
       dispatch(getFiles());
 
-      return results; // Return the results of all uploads
+      return {
+        fileMetadata: { name: file.name, size: file.size, type: file.type },
+        data: response.data,
+      };
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue({
+        fileMetadata: { name: file.name, size: file.size, type: file.type },
+        error:
+          error.response && error.response.data
+            ? error.response.data.error
+            : error.message,
+      });
     }
   }
 );
@@ -70,34 +60,29 @@ const fileUploadSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(uploadFiles.pending, (state) => {
-        state.files.forEach((file) => {
-          file.status = "pending";
-        });
+      .addCase(uploadFile.pending, (state, action) => {
+        const fileIndex = state.files.findIndex(
+          (f) => f.fileMetadata.name === action.meta.arg.name
+        );
+        if (fileIndex !== -1) state.files[fileIndex].status = "pending";
       })
-      .addCase(uploadFiles.fulfilled, (state, action) => {
-        // Process the response for each file after all uploads are completed
-        action.payload.forEach((fileData) => {
-          const fileIndex = state.files.findIndex(
-            (f) => f.fileMetadata.name === fileData.fileMetadata.name
-          );
-          if (fileIndex !== -1) {
-            state.files[fileIndex].status = "succeeded";
-            state.files[fileIndex].data = fileData.data;
-          }
-        });
+      .addCase(uploadFile.fulfilled, (state, action) => {
+        const fileIndex = state.files.findIndex(
+          (f) => f.fileMetadata.name === action.payload.fileMetadata.name
+        );
+        if (fileIndex !== -1) {
+          state.files[fileIndex].status = "succeeded";
+          state.files[fileIndex].data = action.payload.data;
+        }
       })
-      .addCase(uploadFiles.rejected, (state, action) => {
-        // Handle errors for files that failed to upload
-        action.payload.forEach((fileData) => {
-          const fileIndex = state.files.findIndex(
-            (f) => f.fileMetadata.name === fileData.fileMetadata.name
-          );
-          if (fileIndex !== -1) {
-            state.files[fileIndex].status = "failed";
-            state.files[fileIndex].error = fileData.error;
-          }
-        });
+      .addCase(uploadFile.rejected, (state, action) => {
+        const fileIndex = state.files.findIndex(
+          (f) => f.fileMetadata.name === action.payload.fileMetadata.name
+        );
+        if (fileIndex !== -1) {
+          state.files[fileIndex].status = "failed";
+          state.files[fileIndex].error = action.payload.error;
+        }
       });
   },
 });

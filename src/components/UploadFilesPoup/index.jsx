@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFiles } from "../../slices/fileUploadSlice";
-import { uploadFiles } from "../../slices/fileUploadSlice";
+import { uploadFile } from "../../slices/fileUploadSlice";
 import styles from "./style.module.scss";
 import Loader from "../../IconComponents/Loader";
 import Failed from "../../IconComponents/Failed";
@@ -39,6 +39,9 @@ const ImageWithFallBack = ({ file, alt }) => {
         return (
           <i className={`bx bxs-file-archive ${styles.bxs_file_archive}`}></i>
         );
+      case "mp4":
+      case "mov":
+        return <i className={`bx bxs-videos ${styles.bxs_file_video}`}></i>;
       default:
         return <i className={`bx bxs-file ${styles.bxs_file}`}></i>;
     }
@@ -68,9 +71,13 @@ const UploadFilesPopup = ({ onClose }) => {
   });
 
   const handleFiles = (selectedFiles) => {
-    const filesArray = Array.from(selectedFiles);
-    dispatch(addFiles(filesArray));
-    dispatch(uploadFiles(filesArray));
+    const fileArray = Array.from(selectedFiles);
+    dispatch(addFiles(fileArray));
+
+    // Trigger upload for each file
+    fileArray.forEach((file) => {
+      dispatch(uploadFile(file));
+    });
   };
 
   const handleDrop = (event) => {
