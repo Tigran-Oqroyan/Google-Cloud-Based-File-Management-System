@@ -12,7 +12,7 @@ import { useTranslation } from "../../hooks/useTranslation";
 
 const ImageWithFallBack = ({ file, alt }) => {
   console.log("FFF", file);
-  const [status, setStatus] = useState("loading");
+  const [status, setStatus] = useState("error");
 
   useEffect(() => {
     const img = new Image();
@@ -43,10 +43,6 @@ const ImageWithFallBack = ({ file, alt }) => {
       default:
         return <i className={`bx bxs-file ${styles.bxs_file}`}></i>;
     }
-  }
-
-  if (status === "loading") {
-    return <div></div>;
   }
 
   if (status === "loaded") {
