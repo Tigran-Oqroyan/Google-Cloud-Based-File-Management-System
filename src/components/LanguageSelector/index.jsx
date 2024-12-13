@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeLanguage } from "../../slices/languageSlice";
 import styles from "./style.module.scss";
@@ -7,6 +7,7 @@ const LanguageSelector = () => {
   const dispatch = useDispatch();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const selectedLanguage = useSelector((state) => state.language);
+  const dropdownRef = useRef(null);
 
   const languages = [
     { value: "en", label: "English" },
@@ -35,8 +36,20 @@ const LanguageSelector = () => {
     setIsDropdownOpen(false);
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className={styles.languages_wrapper}>
+    <div className={styles.languages_wrapper} ref={dropdownRef}>
       <div
         className={styles.language_selector}
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
