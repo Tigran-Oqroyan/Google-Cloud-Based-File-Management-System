@@ -10,8 +10,36 @@ import ka from "../languages/ka";
 import pt from "../languages/pt";
 import sv from "../languages/sv";
 import uk from "../languages/uk";
+import ar from "../languages/ar";
+import ja from "../languages/ja";
+import zh from "../languages/zh";
+import ko from "../languages/ko";
+import hi from "../languages/hi";
+import tr from "../languages/tr";
+import pl from "../languages/pl";
+import nl from "../languages/nl";
 
-const languages = { am, ru, en, de, es, it, fr, ka, pt, sv, uk };
+const languages = {
+  am,
+  ru,
+  en,
+  de,
+  es,
+  it,
+  fr,
+  ka,
+  pt,
+  sv,
+  uk,
+  ar,
+  ja,
+  zh,
+  ko,
+  hi,
+  tr,
+  pl,
+  nl,
+};
 
 export const useTranslation = () => {
   const language = useSelector((state) => state.language);

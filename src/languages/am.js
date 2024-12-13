@@ -25,6 +25,15 @@ const am = {
     "Ընտրեք ֆայլ կամ քաշեք ու գցեք այն այստեղ:",
   "Browse File": "Վերբեռնել ֆայլը",
   "There is no uploaded files": "Վերբեռնված ֆայլեր չկան:",
+  "Confirm Download": "Հաստատել ներբեռնումը",
+  "Are you sure you want to download all your files ?":
+    "Վստա՞հ եք, որ ցանկանում եք ներբեռնել ձեր բոլոր ֆայլերը:",
+  "Are you sure you want to download the selected files ?":
+    "Վստա՞հ եք, որ ցանկանում եք ներբեռնել ընտրված ֆայլերը:",
+  "Are you sure you want to download this file ?":
+    "Վստա՞հ եք, որ ցանկանում եք ներբեռնել ընտրված ֆայլը:",
+  Uploaded: "Վերբեռնված է",
+  Failed: "Չհաջողվեց",
   KB: "ԿԲ",
 };
 

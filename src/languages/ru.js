@@ -25,6 +25,15 @@ const ru = {
     "Выберите файл или перетащите его сюда.",
   "Browse File": "Загрузить файл",
   "There is no uploaded files": "Нет загруженных файлов.",
+  "Confirm Download": "Подтвердить загрузку",
+  "Are you sure you want to download all your files ?":
+    "Вы уверены, что хотите скачать все файлы?",
+  "Are you sure you want to download the selected files ?":
+    "Вы уверены, что хотите скачать выбранные файлы?",
+  "Are you sure you want to download this file ?":
+    "Вы уверены, что хотите скачать этот файл?",
+  Uploaded: "Загружено",
+  Failed: "Ошибка",
   KB: "КБ",
 };
 

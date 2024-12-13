@@ -20,6 +20,14 @@ const LanguageSelector = () => {
     { value: "pt", label: "Português" },
     { value: "it", label: "Italiano" },
     { value: "sv", label: "Svensk" },
+    { value: "ar", label: "العربية" },
+    { value: "ja", label: "日本語" },
+    { value: "zh", label: "中文" },
+    { value: "ko", label: "한국어" },
+    { value: "hi", label: "הינדי" },
+    { value: "tr", label: "Türk" },
+    { value: "pl", label: "Polskie" },
+    { value: "nl", label: "Nederlandsk" },
   ];
 
   const handleLanguageChange = (language) => {

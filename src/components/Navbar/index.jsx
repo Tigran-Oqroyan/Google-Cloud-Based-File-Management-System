@@ -194,14 +194,14 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
           <DownloadFilesPopup
             onClose={() => setDownloadPopup(false)}
             onDownload={() => downloadSelected(filteredFiles, selectedFiles)}
-            message="Are you sure you want to downlod the selected files ?"
+            message="Are you sure you want to download the selected files ?"
           />
         )}
         {showDownloadAllPopup && (
           <DownloadFilesPopup
             onClose={() => setDownloadAllPopup(false)}
             onDownload={() => downloadAll(filteredFiles)}
-            message="Are you sure you want to downlod all your files ?"
+            message="Are you sure you want to download all your files ?"
           />
         )}
       </div>

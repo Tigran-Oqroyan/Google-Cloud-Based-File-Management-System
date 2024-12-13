@@ -169,13 +169,13 @@ const UploadFilesPopup = ({ onClose }) => {
                   {fileWrapper.status === "pending" && <Loader />}
                   {fileWrapper.status === "succeeded" && (
                     <div className={styles.fileStatus_item_wrapper_success}>
-                      <span>Uploaded</span>
+                      <span>{t("Uploaded")}</span>
                       <Successed />
                     </div>
                   )}
                   {fileWrapper.status === "failed" && (
                     <div className={styles.fileStatus_item_wrapper_failed}>
-                      <span>Failed</span> <Failed />
+                      <span>{t("Failed")}</span> <Failed />
                     </div>
                   )}
                 </span>
