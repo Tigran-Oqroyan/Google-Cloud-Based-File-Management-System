@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addFiles } from "../../slices/fileUploadSlice";
-import { uploadFile } from "../../slices/fileUploadSlice";
+import { uploadFiles } from "../../slices/fileUploadSlice";
 import styles from "./style.module.scss";
 import Loader from "../../IconComponents/Loader";
 import Failed from "../../IconComponents/Failed";
@@ -11,7 +11,6 @@ import Right from "../../IconComponents/Right";
 import { useTranslation } from "../../hooks/useTranslation";
 
 const ImageWithFallBack = ({ file, alt }) => {
-  console.log("FFF", file);
   const [status, setStatus] = useState("error");
 
   useEffect(() => {
@@ -69,14 +68,9 @@ const UploadFilesPopup = ({ onClose }) => {
   });
 
   const handleFiles = (selectedFiles) => {
-    const fileArray = Array.from(selectedFiles);
-
-    dispatch(addFiles(fileArray));
-
-    // Trigger upload for each file
-    fileArray.forEach((file) => {
-      dispatch(uploadFile(file));
-    });
+    const filesArray = Array.from(selectedFiles);
+    dispatch(addFiles(filesArray));
+    dispatch(uploadFiles(filesArray));
   };
 
   const handleDrop = (event) => {

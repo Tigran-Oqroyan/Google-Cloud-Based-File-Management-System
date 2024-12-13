@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styles from "./style.module.scss";
-import { deleteFilesById } from "../../slices/filesGetSlice";
+import { deleteFilesByIds } from "../../slices/filesGetSlice";
 import UploadFilesPopup from "../UploadFilesPoup";
 import DeleteFilesPopup from "../DeleteFilesPopup";
 import { clearUploadedFiles } from "../../slices/fileUploadSlice";
@@ -62,7 +62,7 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
         return file.id;
       });
       dispatch(deleteFile(ids));
-      dispatch(deleteFilesById(ids));
+      dispatch(deleteFilesByIds(ids));
       dispatch(deselectAllFiles());
       setShowDelAllPopup(false);
     }
@@ -71,7 +71,7 @@ const Navbar = ({ isAllSelected, handleSelectAll }) => {
   const deleteSelected = () => {
     if (selectedFiles.length > 0) {
       dispatch(deleteFile(selectedFiles));
-      dispatch(deleteFilesById(selectedFiles));
+      dispatch(deleteFilesByIds(selectedFiles));
       dispatch(deselectAllFiles());
       setShowDelPopup(false);
     }

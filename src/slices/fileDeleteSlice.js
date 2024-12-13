@@ -1,19 +1,41 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const chunkArray = (array, size) => {
+  const chunks = [];
+  for (let i = 0; i < array.length; i += size) {
+    chunks.push(array.slice(i, i + size));
+  }
+  return chunks;
+};
+
 export const deleteFile = createAsyncThunk(
   "fileDelete/deleteFile",
   async (fileIds, { rejectWithValue }) => {
     const url = "https://form.apiboomtech.com/api/deleteGoogleCloudFiles";
+    const batchSize = 10;
+    const batches = chunkArray(fileIds, batchSize);
 
     try {
-      const response = await axios.delete(url, {
-        data: { fileIds },
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      return response.data;
+      const promises = batches.map((batch) =>
+        axios.delete(url, {
+          data: { fileIds: batch },
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+      );
+
+      const responses = await Promise.all(promises);
+
+      const allFilesDeleted = responses.flatMap(
+        (response) => response.data.filesDeleted
+      );
+      const allFilesFailed = responses.flatMap(
+        (response) => response.data.filesFailed
+      );
+
+      return { filesDeleted: allFilesDeleted, filesFailed: allFilesFailed };
     } catch (error) {
       return rejectWithValue(
         error.response && error.response.data
